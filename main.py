@@ -25,7 +25,7 @@ PLAYER2_SCORE_POS = (5, 5)
 DURATION = 2 * 60
 
 
-FPS = 20
+FPS = 17
 
 def quit_game():
   pygame.quit()
@@ -135,8 +135,9 @@ def main():
   pygame.init()
   pygame.font.init()
   clock = pygame.time.Clock()
-
-  # initialize snake, food and scores
+  
+  # initialize the session, snake, food and scores
+  new_session = True
   snake = Snake()
   snake_score = 0
   food = create_food(snake)
@@ -163,8 +164,12 @@ def main():
         game_state = "RUNNING"
         
     elif game_state == "RUNNING":
-      time_in_sec = int(pygame.time.get_ticks() / 1000)
-      time_remaining = DURATION - time_in_sec  # calculate remaining time
+      if new_session:
+        session_start_time = pygame.time.get_ticks()
+        new_session = False
+
+      time_elapsed = int((pygame.time.get_ticks() - session_start_time) / 1000)
+      time_remaining = DURATION - time_elapsed  # calculate remaining time
 
       # when key is pressed, change direction
       if keys[pygame.locals.K_UP] and snake.direction != "DOWN":
@@ -207,6 +212,7 @@ def main():
       # when game ends, draw the end game modal
       draw_end(snake_score, player2_score, snake)
       if any(keys):
+        new_session = True
         snake = Snake()
         snake_score = 0
         food = create_food(snake)
