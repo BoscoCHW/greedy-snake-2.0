@@ -39,9 +39,13 @@ def render_text_surface(text: str, color: tuple, size: int):
   return text_surface
 
 def pos_x_for_centering(bg: pygame.Surface, fg: pygame.Surface):
+  """calculate the x pos of the foreground given a background
+     if you were to center the foreground
+  """
   return bg.get_rect().centerx - fg.get_rect().width / 2
 
 def draw_start():
+  """draw the start screen"""
   WINDOW.fill(BLACK)
   greeting_surf = render_text_surface("Welcome to Greedy Snake 2.0", WHITE, MEDIUM_FONT_SIZE)
   greeting_pos_x = pos_x_for_centering(WINDOW, greeting_surf)
@@ -53,7 +57,7 @@ def draw_start():
   pygame.display.update()
 
 def draw_window(snake: Snake, food: Food, snake_score: int, player2_score: int, time_remained: int):
-  """ draw the window at the end of every loop"""
+  """ draw the game window"""
   WINDOW.fill(BLACK)
 
   time_surf = render_text_surface(f"Remaining time: {time_remained}s", WHITE, SMALL_FONT_SIZE)
@@ -121,6 +125,7 @@ def check_neutralize(keys, snake: Snake):
   return False
 
 def check_snake(snake):
+  """Check if the snake hit the wall or ate itself"""
   snake_rects = [part.rect for part in snake.to_list()]
 
   # if the snake hit the window border or eats itself, it'll be dead
@@ -159,11 +164,13 @@ def main():
     keys = pygame.key.get_pressed()
 
     if game_state == "READY":
+      """ start screen controller """
       draw_start()
       if any(keys):
         game_state = "RUNNING"
         
     elif game_state == "RUNNING":
+      """ game controller """
       if new_session:
         session_start_time = pygame.time.get_ticks()
         new_session = False
@@ -209,7 +216,7 @@ def main():
       draw_window(snake, food, snake_score, player2_score, time_remaining)
 
     elif game_state == "END":
-      # when game ends, draw the end game modal
+      """ end screen controller """
       draw_end(snake_score, player2_score, snake)
       if any(keys):
         new_session = True
