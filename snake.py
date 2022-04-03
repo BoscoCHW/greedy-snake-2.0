@@ -7,6 +7,7 @@ class Snake:
   LENGTH = random.randint(3, 8)
   START_X = random.randint(30, 370)
   START_Y = random.randint(100, 350)
+
   def __init__(self):
     self.direction = "UP"
     self.head = Part(self.START_X, self.START_Y)
