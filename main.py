@@ -4,6 +4,7 @@ from snake import Snake
 from food import Food
 import sys
 
+# Game window parameters
 WIDTH, HEIGHT = 600, 600
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Greedy Snake 2.0")

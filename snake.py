@@ -2,10 +2,11 @@ import pygame
 import random
 
 class Snake:
-  """Singly linked list implementation of a snake"""
+  """A doubly linked list implementation of a snake"""
   WIDTH = 10
  
   def __init__(self):
+    """Initializes a snake at a random location of a random length between 3-8 parts"""
     self.length = random.randint(3, 8)
     self.start_x = random.randint(30, 370)
     self.start_y = random.randint(100, 350)
@@ -23,7 +24,7 @@ class Snake:
     self.state = "ALIVE"
     
   def move(self):
-    
+    """Implements the movment of the snake by moving the last Part of the snake to the front."""
     if self.direction == "UP":
       self.tail.rect.x = self.head.rect.x
       self.tail.rect.y = self.head.rect.y - self.WIDTH 
@@ -49,6 +50,7 @@ class Snake:
     self.head = tmp
     
   def grow(self):
+    """Implements the growth of the snake by adding a new Part in the front."""
     if self.direction == "UP":
       part = Part(self.head.rect.x, self.head.rect.y-self.WIDTH)
     elif self.direction == "RIGHT": 
@@ -82,7 +84,7 @@ class Snake:
     return sec_last
 
   def to_list(self):
-    """return a list a snake body parts"""
+    """return a list of snake body parts"""
     snake = []
     tmp = self.head
     while tmp != None:
@@ -91,6 +93,7 @@ class Snake:
     return snake
 
 class Part:
+  """Represents a part of the snake."""
   def __init__(self, x, y):
     self.next = None
     self.prev = None
